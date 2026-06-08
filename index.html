@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vaishnav Venkatesh</title>
+  <meta name="description" content="AI/ML & Data Science — CS undergrad at SRMIST." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --off: #f5f5f7;
+      --light: #e8e8ed;
+      --mid: #6e6e73;
+      --dark: #1d1d1f;
+      --ink: #000000;
+      --blue: #0071e3;
+      --blue-dk: #0077ed;
+      --accent: #2c2c2e;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--dark);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 10px; height: 10px;
+      background: var(--ink);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(0,0,0,0.3);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.25s ease, height 0.25s ease, border-color 0.2s ease;
+    }
+    body.cursor-hover .cursor { width: 16px; height: 16px; background: var(--blue); }
+    body.cursor-hover .cursor-ring { width: 56px; height: 56px; border-color: rgba(0,113,227,0.3); }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 52px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 0.5px solid rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+    }
+    .nav-inner {
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--mid);
+      text-decoration: none;
+      letter-spacing: 0.1px;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--white);
+      background: var(--ink);
+      padding: 7px 18px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .nav-cta:hover { background: #333; }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 52px 48px 0;
+      position: relative;
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--blue);
+      letter-spacing: 0.3px;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(64px, 10vw, 130px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -3px;
+      color: var(--ink);
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.35s forwards;
+    }
+    .hero-name .italic {
+      font-style: italic;
+      font-weight: 500;
+      color: var(--mid);
+    }
+
+    .hero-sub {
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.5;
+      max-width: 580px;
+      margin-bottom: 40px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.5s forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.65s forwards;
+    }
+    .cta-primary {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--white);
+      background: var(--blue);
+      padding: 12px 26px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .cta-primary:hover { background: var(--blue-dk); transform: scale(1.02); }
+    .cta-ghost {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--blue);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: gap 0.15s;
+    }
+    .cta-ghost:hover { gap: 9px; }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 1.1s forwards;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--mid), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
+    .scroll-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mid);
+      font-weight: 400;
+    }
+
+    .hero-stat-row {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      margin-bottom: 0;
+      padding-bottom: 64px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.8s forwards;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .hero-stat-lbl {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--mid);
+      letter-spacing: 0.2px;
+    }
+    .stat-divider {
+      width: 1px;
+      height: 48px;
+      background: var(--light);
+      align-self: center;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* Divider */
+    .section-divider {
+      height: 1px;
+      background: var(--light);
+      margin: 0 48px;
+    }
+
+    /* Section wrapper */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 48px;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--blue);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -1.5px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .section-title .italic { font-style: italic; font-weight: 500; color: var(--mid); }
+
+    .section-lead {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 56px;
+    }
+
+    /* About */
+    .about-bg { background: var(--off); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-body {
+      font-size: 16px;
+      font-weight: 300;
+      color: #3a3a3c;
+      line-height: 1.85;
+    }
+    .about-body p + p { margin-top: 20px; }
+    .about-body strong { color: var(--ink); font-weight: 500; }
+
+    .about-right { display: flex; flex-direction: column; gap: 2px; }
+    .about-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 24px 28px;
+    }
+    .about-card-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .about-card-lbl {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--mid);
+    }
+
+    /* Projects */
+    .proj-list { display: flex; flex-direction: column; gap: 2px; }
+    .proj-item {
+      background: var(--off);
+      border-radius: 18px;
+      padding: 48px 52px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+      margin-bottom: 16px;
+    }
+    .proj-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.07);
+    }
+    .proj-num {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--mid);
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+    .proj-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.8px;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .proj-period {
+      font-size: 12px;
+      color: var(--mid);
+      margin-bottom: 20px;
+    }
+    .proj-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--blue);
+      text-decoration: none;
+      transition: gap 0.15s;
+    }
+    .proj-link:hover { gap: 9px; }
+
+    .proj-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .proj-bullets li {
+      font-size: 14px;
+      font-weight: 300;
+      color: #3a3a3c;
+      line-height: 1.65;
+      padding-left: 16px;
+      position: relative;
+    }
+    .proj-bullets li::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--blue);
+      position: absolute;
+      left: 0; top: 8px;
+    }
+
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 24px;
+    }
+    .ptag {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 100px;
+      background: rgba(0,113,227,0.08);
+      color: var(--blue);
+      letter-spacing: 0.2px;
+    }
+
+    /* Experience */
+    .exp-list { display: flex; flex-direction: column; gap: 2px; }
+    .exp-item {
+      border-top: 1px solid var(--light);
+      padding: 40px 0;
+      display: grid;
+      grid-template-columns: 220px 1fr auto;
+      gap: 48px;
+      align-items: start;
+    }
+    .exp-period-col {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--mid);
+      line-height: 1.6;
+      padding-top: 3px;
+    }
+    .exp-role {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .exp-org {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--blue);
+      margin-bottom: 16px;
+    }
+    .exp-bullets { list-style: none; }
+    .exp-bullets li {
+      font-size: 14px;
+      font-weight: 300;
+      color: #3a3a3c;
+      line-height: 1.65;
+      padding: 5px 0 5px 16px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--mid);
+      position: absolute;
+      left: 0; top: 11px;
+    }
+
+    /* Skills */
+    .skills-bg { background: var(--ink); }
+    .skills-bg .section-title { color: var(--white); }
+    .skills-bg .section-tag { color: #636366; }
+    .skills-bg .section-lead { color: #636366; }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .skill-card {
+      background: #111;
+      border-radius: 0;
+      padding: 36px 40px;
+      transition: background 0.2s;
+    }
+    .skill-card:hover { background: #161616; }
+    .skill-card:first-child { border-radius: 18px 0 0 0; }
+    .skill-card:nth-child(3) { border-radius: 0 18px 0 0; }
+    .skill-card:nth-child(4) { border-radius: 0 0 0 18px; }
+    .skill-card:last-child { border-radius: 0 0 18px 0; }
+    .skill-cat {
+      font-size: 11px;
+      font-weight: 500;
+      color: #636366;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .skill-items {
+      font-size: 15px;
+      font-weight: 300;
+      color: #e5e5ea;
+      line-height: 2;
+    }
+
+    /* Certs */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .cert-card {
+      background: var(--off);
+      border-radius: 14px;
+      padding: 28px 32px;
+      transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
+    }
+    .cert-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+    }
+    .cert-issuer {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--blue);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .cert-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .cert-date {
+      font-size: 12px;
+      color: var(--mid);
+      font-weight: 400;
+    }
+
+    /* Extras */
+    .extras-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .extra-card {
+      border: 1px solid var(--light);
+      border-radius: 14px;
+      padding: 24px 28px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .extra-card:hover {
+      border-color: #bbb;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    }
+    .extra-type {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--mid);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .extra-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+    .extra-date {
+      font-size: 12px;
+      color: var(--mid);
+    }
+
+    /* Contact */
+    .contact-bg { background: var(--off); text-align: center; }
+    .contact-bg .section { padding: 112px 48px; display: flex; flex-direction: column; align-items: center; }
+    .contact-bg .section-title { max-width: 640px; }
+    .contact-email {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 400;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--light);
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+      margin-bottom: 40px;
+    }
+    .contact-email:hover { border-color: var(--ink); color: var(--blue); }
+    .contact-links {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .contact-btn {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--white);
+      background: var(--ink);
+      padding: 12px 28px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .contact-btn:hover { background: #333; transform: scale(1.02); }
+    .contact-btn-ghost {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ink);
+      background: transparent;
+      padding: 11px 28px;
+      border-radius: 100px;
+      border: 1px solid var(--light);
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .contact-btn-ghost:hover { border-color: #bbb; background: var(--white); }
+
+    /* Contact form */
+    .contact-form {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 8px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-field label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--mid);
+      letter-spacing: 0.3px;
+      padding-left: 2px;
+    }
+    .form-field input,
+    .form-field textarea {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--light);
+      border-radius: 12px;
+      padding: 14px 16px;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      cursor: text;
+    }
+    .form-field textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.5;
+      font-family: 'Inter', sans-serif;
+    }
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
+    }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: #a1a1a6;
+      font-weight: 300;
+    }
+    .form-submit {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      background: var(--ink);
+      padding: 14px 28px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
+      align-self: flex-start;
+      margin-top: 6px;
+    }
+    .form-submit:hover { background: #333; transform: scale(1.02); }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .form-status {
+      font-size: 13px;
+      font-weight: 400;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-top: 6px;
+      display: none;
+    }
+    .form-status.success {
+      display: block;
+      background: rgba(52, 199, 89, 0.1);
+      color: #1c7e3f;
+      border: 1px solid rgba(52, 199, 89, 0.25);
+    }
+    .form-status.error {
+      display: block;
+      background: rgba(255, 59, 48, 0.08);
+      color: #b32118;
+      border: 1px solid rgba(255, 59, 48, 0.2);
+    }
+
+    .form-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 24px 0 28px;
+      width: 100%;
+      max-width: 520px;
+    }
+    .form-divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--light);
+    }
+    .form-divider-text {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--mid);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* Footer */
+    footer {
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--light);
+    }
+    .footer-text {
+      font-size: 12px;
+      color: var(--mid);
+      font-weight: 400;
+    }
+
+    /* Parallax name section */
+    .parallax-name {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      background: var(--ink);
+    }
+    .parallax-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(80px, 14vw, 180px);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -6px;
+      line-height: 0.88;
+      text-align: center;
+      will-change: transform;
+      user-select: none;
+    }
+    .parallax-text .line2 {
+      font-style: italic;
+      font-weight: 400;
+      color: rgba(255,255,255,0.25);
+      display: block;
+    }
+    .parallax-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, var(--ink) 0%, transparent 20%, transparent 80%, var(--ink) 100%);
+      pointer-events: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .hero { padding: 80px 24px 0; }
+      .section { padding: 72px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .proj-item { grid-template-columns: 1fr; gap: 32px; padding: 36px 28px; }
+      .exp-item { grid-template-columns: 1fr; gap: 8px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .cert-grid { grid-template-columns: 1fr; }
+      .extras-row { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stat-row { gap: 24px; flex-wrap: wrap; justify-content: center; }
+      .section-divider { margin: 0 24px; }
+      footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Vaishnav Venkatesh</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="mailto:vaishnav.venkatesh.7007@gmail.com" class="nav-cta">Hire me</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <p class="hero-eyebrow">AI · ML · Data Science · Chennai</p>
+    <h1 class="hero-name">
+      Vaishnav<br>
+      <span class="italic">Venkatesh</span>
+    </h1>
+    <p class="hero-sub">CS undergrad at SRMIST specializing in AI/ML. I build models that do something real — from gesture recognition systems to predictive risk pipelines.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="cta-primary">See my work</a>
+      <a href="#contact" class="cta-ghost">Get in touch →</a>
+    </div>
+    <div class="hero-stat-row">
+      <div class="hero-stat">
+        <div class="hero-stat-num">9.11</div>
+        <div class="hero-stat-lbl">CGPA / 10</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">99%</div>
+        <div class="hero-stat-lbl">Sign language accuracy</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">1L+</div>
+        <div class="hero-stat-lbl">Revenue raised</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">4</div>
+        <div class="hero-stat-lbl">Languages spoken</div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      <div class="scroll-label">Scroll</div>
+    </div>
+  </section>
+
+  <!-- Parallax name break -->
+  <div class="parallax-name" id="parallaxSection">
+    <div class="parallax-text" id="parallaxText">
+      Vaishnav<span class="line2">Venkatesh</span>
+    </div>
+    <div class="parallax-overlay"></div>
+  </div>
+
+  <!-- About -->
+  <div class="about-bg">
+    <section class="section" id="about">
+      <p class="section-tag reveal">About</p>
+      <h2 class="section-title reveal reveal-delay-1">Building things that<br><span class="italic">actually work.</span></h2>
+      <div class="about-grid">
+        <div class="about-body reveal reveal-delay-2">
+          <p>Third-year CS student at <strong>SRMIST</strong>, specializing in AI/ML. My coursework covers the theory — data science, machine learning, DBMS, algorithms. Most of what I actually know came from building things and debugging at 2am.</p>
+          <p>I've built a real-time sign language recognition system using CNNs, led a cross-functional team at AIESEC raising INR 1L+ in sponsorships, completed an AI/ML internship in Nagpur, and spent a week studying innovation across five industries in Tokyo.</p>
+          <p>Currently looking for a <strong>data science internship</strong> where the data is messy and the problems are real. I speak English, Hindi, Tamil, and Marathi.</p>
+        </div>
+        <div class="about-right reveal reveal-delay-3">
+          <div class="about-card">
+            <div class="about-card-num">9.11</div>
+            <div class="about-card-lbl">CGPA at SRMIST · B.Tech CSE (AI/ML)</div>
+          </div>
+          <div class="about-card" style="margin-top:2px;">
+            <div class="about-card-num">99%</div>
+            <div class="about-card-lbl">Accuracy — Sign Language CNN</div>
+          </div>
+          <div class="about-card" style="margin-top:2px;">
+            <div class="about-card-num">1L+</div>
+            <div class="about-card-lbl">INR sponsorship revenue · AIESEC Chennai</div>
+          </div>
+          <div class="about-card" style="margin-top:2px;">
+            <div class="about-card-num">Tokyo</div>
+            <div class="about-card-lbl">Japan Study Immersion · FPT Japan · Jul 2025</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- Projects -->
+  <section class="section" id="projects">
+    <p class="section-tag reveal">Projects</p>
+    <h2 class="section-title reveal reveal-delay-1">Things I've <span class="italic">built.</span></h2>
+    <p class="section-lead reveal reveal-delay-2">Two projects, both with real data, real pipelines, and actual evaluation metrics.</p>
+    <div class="proj-list">
+
+      <div class="proj-item reveal">
+        <div>
+          <div class="proj-num">001</div>
+          <div class="proj-title">DARA — Digital Addiction Risk Assessment</div>
+          <div class="proj-period">Ongoing</div>
+          <a href="https://github.com/Vaishnav0777/digital-addiction-risk-ml" target="_blank" rel="noopener" class="proj-link">View on GitHub →</a>
+          <div class="proj-tags">
+            <span class="ptag">Python</span>
+            <span class="ptag">Scikit-learn</span>
+            <span class="ptag">EDA</span>
+            <span class="ptag">Classification</span>
+            <span class="ptag">Feature Engineering</span>
+            <span class="ptag">Random Forest</span>
+          </div>
+        </div>
+        <ul class="proj-bullets">
+          <li>Predictive risk tool built on 125+ user survey responses — feature engineering to translate behavioral patterns into ML variables</li>
+          <li>Trained Logistic Regression, Decision Tree, and Random Forest classifiers; 75% accuracy; evaluated with confusion matrix, precision, recall, and F1-score</li>
+          <li>EDA linking screen-time patterns to academic performance; designed for early intervention in university populations</li>
+        </ul>
+      </div>
+
+      <div class="proj-item reveal reveal-delay-1">
+        <div>
+          <div class="proj-num">002</div>
+          <div class="proj-title">AI-Based Sign Language Translator</div>
+          <div class="proj-period">Sep 2025</div>
+          <a href="https://github.com/Vaishnav0777/AI-Sign-Language-Translator-With-learning-mode" target="_blank" rel="noopener" class="proj-link">View on GitHub →</a>
+          <div class="proj-tags">
+            <span class="ptag">TensorFlow</span>
+            <span class="ptag">Keras</span>
+            <span class="ptag">CNN</span>
+            <span class="ptag">OpenCV</span>
+            <span class="ptag">Computer Vision</span>
+            <span class="ptag">Data Augmentation</span>
+          </div>
+        </div>
+        <ul class="proj-bullets">
+          <li>Real-time ASL gesture recognition via CNN in TensorFlow/Keras — classified A–Z hand signs with 99% accuracy</li>
+          <li>End-to-end data pipeline: image collection, augmentation (rotation, flip, normalization, resizing) for generalization across unseen data</li>
+          <li>Live webcam integration via OpenCV; validated with confusion matrix and classification reports</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Experience -->
+  <section class="section" id="experience">
+    <p class="section-tag reveal">Experience</p>
+    <h2 class="section-title reveal reveal-delay-1">Where I've <span class="italic">worked.</span></h2>
+    <div class="exp-list">
+
+      <div class="exp-item reveal">
+        <div class="exp-period-col">Feb 2026 – Present<br>Chennai, India</div>
+        <div>
+          <div class="exp-role">Business Development Team Lead</div>
+          <div class="exp-org">AIESEC in Chennai</div>
+          <ul class="exp-bullets">
+            <li>Leading cross-functional team of 4 across marketing, operations, and partnerships</li>
+            <li>Organized Youth Speak Forum engaging 100+ participants; partnerships with StudyIn and SRM University expanding reach by 40%</li>
+            <li>Generated INR 1L+ in sponsorship revenue through data-driven partner identification, proposal development, and negotiation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item reveal reveal-delay-1">
+        <div class="exp-period-col">Nov 2025 – Feb 2026<br>Nagpur, India</div>
+        <div>
+          <div class="exp-role">AI/ML Engineer Intern</div>
+          <div class="exp-org">Shri Lakshmi Narayana Industries Pvt Ltd</div>
+          <ul class="exp-bullets">
+            <li>Analyzed end-to-end business operations in Python and Excel; identified bottlenecks contributing to 15–20% profitability increase</li>
+            <li>Customer segmentation and market analysis using ML techniques; refined pricing strategies and improved operational workflow efficiency</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Skills — dark section -->
+  <div class="skills-bg" id="skills">
+    <section class="section">
+      <p class="section-tag reveal">Skills</p>
+      <h2 class="section-title reveal reveal-delay-1" style="color:#fff;">What I <span class="italic" style="color:#636366;">work with.</span></h2>
+      <div class="skills-grid reveal reveal-delay-2">
+        <div class="skill-card">
+          <div class="skill-cat">Languages</div>
+          <div class="skill-items">Python<br>Java<br>SQL<br>C</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-cat">AI / ML</div>
+          <div class="skill-items">Classification<br>Regression<br>Feature Engineering<br>Deep Learning<br>CNN · NLP</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-cat">Frameworks</div>
+          <div class="skill-items">TensorFlow<br>Keras<br>Scikit-learn<br>OpenCV<br>Pandas · NumPy</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-cat">Data</div>
+          <div class="skill-items">EDA<br>Statistical Analysis<br>Data Visualization<br>Power BI · Excel<br>Matplotlib</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-cat">Core CS</div>
+          <div class="skill-items">DSA<br>OOP<br>DBMS<br>OS · Networks</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-cat">Tools</div>
+          <div class="skill-items">Git · GitHub<br>Jupyter · Colab<br>VS Code<br>Figma · Jira</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- Certifications -->
+  <section class="section">
+    <p class="section-tag reveal">Certifications</p>
+    <h2 class="section-title reveal reveal-delay-1">Credentials.</h2>
+    <div class="cert-grid">
+      <div class="cert-card reveal">
+        <div class="cert-issuer">SAP</div>
+        <div class="cert-name">SAP Certified Data Analyst — SAP Analytics Cloud</div>
+        <div class="cert-date">Mar 2026</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-1">
+        <div class="cert-issuer">IIT Kharagpur / NPTEL</div>
+        <div class="cert-name">Introduction to Machine Learning</div>
+        <div class="cert-date">Sep 2025</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-2">
+        <div class="cert-issuer">Oracle</div>
+        <div class="cert-name">Oracle Certified Foundations Associate</div>
+        <div class="cert-date">Feb 2025</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-3">
+        <div class="cert-issuer">Coursera</div>
+        <div class="cert-name">Product Management: An Introduction</div>
+        <div class="cert-date">Mar 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Extras -->
+  <section class="section">
+    <p class="section-tag reveal">More</p>
+    <h2 class="section-title reveal reveal-delay-1">Hackathons &amp; <span class="italic">Beyond.</span></h2>
+    <div class="extras-row">
+      <div class="extra-card reveal">
+        <div class="extra-type">Hackathon</div>
+        <div class="extra-name">Overclocked Code Edition — SRM IST × HackerRank</div>
+        <div class="extra-date">Feb 2026</div>
+      </div>
+      <div class="extra-card reveal reveal-delay-1">
+        <div class="extra-type">Hackathon</div>
+        <div class="extra-name">TechXcelerate — BITS Hyderabad</div>
+        <div class="extra-date">Mar 2025</div>
+      </div>
+      <div class="extra-card reveal reveal-delay-2">
+        <div class="extra-type">Hackathon</div>
+        <div class="extra-name">Ultron 8.0 Hackvengers, 24hr — SRM IST</div>
+        <div class="extra-date">Jan 2025</div>
+      </div>
+      <div class="extra-card reveal reveal-delay-3">
+        <div class="extra-type">International Exposure</div>
+        <div class="extra-name">Japan Study Immersion — FPT Japan, Tokyo</div>
+        <div class="extra-date">Jul 2025 · 5+ innovation-driven industries</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <div class="contact-bg" id="contact">
+    <section class="section">
+      <p class="section-tag reveal">Contact</p>
+      <h2 class="section-title reveal reveal-delay-1">Let's work<br><span class="italic">together.</span></h2>
+      <p class="section-lead reveal reveal-delay-2" style="text-align:center;">Open to data science internships, collaborations, and interesting problems. Send a message below.</p>
+
+      <form class="contact-form reveal reveal-delay-2" id="contactForm" action="https://formspree.io/f/mjgdwgjr" method="POST">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="What's this about?" />
+        </div>
+        <div class="form-field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Tell me about the role, project, or just say hi." required></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="formSubmit">Send message</button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+
+      <div class="form-divider reveal reveal-delay-3">
+        <div class="form-divider-line"></div>
+        <div class="form-divider-text">Or reach me on</div>
+        <div class="form-divider-line"></div>
+      </div>
+
+      <div class="contact-links reveal reveal-delay-3">
+        <a href="mailto:vaishnav.venkatesh.7007@gmail.com" class="contact-btn">Email directly</a>
+        <a href="https://www.linkedin.com/in/vaishnav-venkatesh-76b529319" target="_blank" rel="noopener" class="contact-btn-ghost">LinkedIn</a>
+        <a href="https://github.com/Vaishnav0777" target="_blank" rel="noopener" class="contact-btn-ghost">GitHub</a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-text">© 2026 Vaishnav Venkatesh · Chennai, India</div>
+    <div class="footer-text">SRMIST · B.Tech CSE (AI/ML) · 2023–2027</div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Parallax name
+    const parallaxText = document.getElementById('parallaxText');
+    const parallaxSection = document.getElementById('parallaxSection');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const rect = parallaxSection.getBoundingClientRect();
+      const sectionTop = rect.top + scrollY;
+      const relativeScroll = scrollY - sectionTop;
+      const offset = relativeScroll * 0.35;
+      if (parallaxText) {
+        parallaxText.style.transform = `translateY(${offset}px)`;
+      }
+    }, { passive: true });
+
+    // Nav active state
+    const sections = document.querySelectorAll('section[id], div[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const scrollSpy = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(a => a.style.color = '');
+          const id = entry.target.id;
+          const active = document.querySelector(`.nav-links a[href="#${id}"]`);
+          if (active) active.style.color = '#000';
+        }
+      });
+    }, { threshold: 0.4 });
+    sections.forEach(s => scrollSpy.observe(s));
+
+    // Contact form — Formspree submission
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('formSubmit');
+    const statusEl = document.getElementById('formStatus');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      statusEl.className = 'form-status';
+      statusEl.textContent = '';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          form.reset();
+          statusEl.className = 'form-status success';
+          statusEl.textContent = "Thanks — your message is on its way. I'll get back to you soon.";
+        } else {
+          const data = await response.json();
+          statusEl.className = 'form-status error';
+          statusEl.textContent = data.errors?.map(e => e.message).join(', ') || "Couldn't send. Try emailing directly.";
+        }
+      } catch (err) {
+        statusEl.className = 'form-status error';
+        statusEl.textContent = "Network issue. Try emailing directly at vaishnav.venkatesh.7007@gmail.com.";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+      }
+    });
+  </script>
+
+</body>
+</html>
